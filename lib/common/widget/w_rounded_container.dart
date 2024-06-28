@@ -14,7 +14,7 @@ class RoundedContainer extends StatelessWidget {
       this.padding,
       this.margin,
       this.color,
-      this.radius = 0,
+      this.radius = 15,
       this.radiusGeometry});
 
   @override
