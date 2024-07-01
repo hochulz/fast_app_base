@@ -56,7 +56,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
           onPressed: () async {
             final result = await WriteToDoDialog().show();
             if (result != null && mounted) {
-              this.context.todoHolder.notifier.addTodo(Todo(
+              TodoDataHolder.of(this.context).notifier.addTodo(Todo(
                 id : DateTime.now().microsecondsSinceEpoch,
                 title: result.text,
                 dueDate: result.date,

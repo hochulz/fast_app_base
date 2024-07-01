@@ -9,9 +9,12 @@ import 'package:after_layout/after_layout.dart';
 
 import '../../../../common/widget/w_round_button.dart';
 import '../../../../common/widget/w_rounded_container.dart';
+import '../../../../data/memory/vo_todo.dart';
 
 class WriteToDoDialog extends DialogWidget<WriteToDoResult> {
-  WriteToDoDialog({super.key});
+  final Todo? editTodo;
+
+  WriteToDoDialog({this.editTodo, super.key});
 
   @override
   DialogState<WriteToDoDialog> createState() => _WriteToDoDialogState();
@@ -22,6 +25,15 @@ class _WriteToDoDialogState extends DialogState<WriteToDoDialog>
   DateTime _selectedDate = DateTime.now();
   final textController = TextEditingController();
   final node = FocusNode();
+
+  @override
+  void initState() {
+    if (widget.editTodo != null) {
+      _selectedDate = widget.editTodo!.dueDate;
+      textController.text = widget.editTodo!.title;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +63,7 @@ class _WriteToDoDialogState extends DialogState<WriteToDoDialog>
                   controller: textController,
                 )),
                 RoundButton(
-                  text: '추가',
+                  text: isEditMode? '완료' : '추가',
                   onTap: () {
                     widget.hide(
                         WriteToDoResult(_selectedDate, textController.text));
@@ -77,6 +89,8 @@ class _WriteToDoDialogState extends DialogState<WriteToDoDialog>
       });
     }
   }
+
+  bool get isEditMode => widget.editTodo == null? false : true;
 
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
