@@ -9,17 +9,17 @@ import 'package:get/get.dart';
 
 import '../../../../data/memory/vo_todo.dart';
 
-class TodoItem extends StatelessWidget {
+class TodoItem extends StatelessWidget with TodoDataProvider {
   final Todo todo;
 
-  const TodoItem(this.todo, {super.key});
+  TodoItem(this.todo, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       key: ValueKey(todo.id),
       onDismissed: (direction) =>
-          TodoDataHolder.of(context).notifier.removeTodo(todo),
+          todoData.removeTodo(todo),
       background: RoundedContainer(
         color: Colors.red.shade400,
         child: const Row(children: [
@@ -49,7 +49,7 @@ class TodoItem extends StatelessWidget {
                 Expanded(child: todo.title.text.size(20).medium.make()),
                 IconButton(
                     onPressed: () async =>
-                        TodoDataHolder.of(context).editTodo(todo),
+                        todoData.editTodo(todo),
                     icon: const Icon(EvaIcons.editOutline)),
               ],
             )

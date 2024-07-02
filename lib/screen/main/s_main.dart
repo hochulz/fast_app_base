@@ -16,7 +16,7 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => MainScreenState();
 }
 
-class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin {
+class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin, TodoDataProvider {
   TabItem _currentTab = TabItem.todo;
   final tabs = [TabItem.todo, TabItem.search];
   final List<GlobalKey<NavigatorState>> navigatorKeys = [];
@@ -53,16 +53,7 @@ class MainScreenState extends State<MainScreen> with SingleTickerProviderStateMi
         ),
         bottomNavigationBar: _buildBottomNavigationBar(context),
         floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            final result = await WriteToDoDialog().show();
-            if (result != null && mounted) {
-              TodoDataHolder.of(this.context).notifier.addTodo(Todo(
-                id : DateTime.now().microsecondsSinceEpoch,
-                title: result.text,
-                dueDate: result.date,
-              ));
-            }
-          },
+          onPressed: () async {todoData.addTodo();},
           child: const Icon(EvaIcons.plus),
         ),
       ),

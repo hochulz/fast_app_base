@@ -1,5 +1,3 @@
-
-
 import 'package:easy_localization/easy_localization.dart';
 
 extension DateTimeExtension on DateTime {
@@ -13,12 +11,14 @@ extension DateTimeExtension on DateTime {
     final now = DateTime.now();
     final difference = this.difference(now).inDays;
 
-    if (difference > 0) {
+    if (difference > 1) {
       return '$difference일 남았습니다';
-    } else if (difference < 0) {
-      return '${difference.abs()}일 지났습니다';
-    } else {
+    } else if (difference == 1) {
+      return '내일까지 입니다';
+    } else if (difference == 0) {
       return '오늘까지 입니다';
+    } else {
+      return '${difference.abs()}일 지났습니다';
     }
   }
 }
